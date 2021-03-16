@@ -21,36 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.vmware.vra.jenkinsplugin.testutils;
 
-package com.vmware.vra.jenkinsplugin.pipelines
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
-node {
-    def dep = vraDeployFromCatalog(
-            vraURL: env.vraURL,
-            token: env.token,
-            catalogItemName: 'jenkins-test',
-            count: 1,
-            deploymentName: 'JenkinsProgrammaticNoGlobals-#',
-            projectName: 'JenkinsTest',
-            reason: 'Test',
-            timeout: 300,
-            version: '6',
-            inputMap: [username: 'testuser'])
-    assert dep != null
-    def addr = vraWaitForAddress(
-            vraURL: env.vraURL,
-            token: env.token,
-            deploymentId: dep[0].id,
-            resourceName: 'UbuntuMachine')
-    echo "Deployed: $dep[0].id, addresses: $addr"
-
-    def dep2 = vraDeleteDeployment(
-            vraURL: env.vraURL,
-            token: env.token,
-            deploymentName: dep[0].name)
-    assert dep2 != null
-    assert dep2.id != null
-    assert dep2.status == "SUCCESSFUL";
+public class HTMLUtils {
+  public static void setNamedOption(final HtmlSelect selector, final String name) {
+    selector.setSelectedAttribute(
+        selector.getOptions().stream()
+            .filter(o -> o.getText().equals(name))
+            .findFirst()
+            .orElseThrow(IllegalArgumentException::new),
+        true);
+  }
 }
-
-
