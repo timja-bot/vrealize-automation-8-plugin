@@ -23,7 +23,7 @@
  */
 package com.vmware.vra.jenkinsplugin.testutils;
 
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
+import org.htmlunit.html.HtmlSelect;
 
 public class HTMLUtils {
   public static void setNamedOption(final HtmlSelect selector, final String name) {
